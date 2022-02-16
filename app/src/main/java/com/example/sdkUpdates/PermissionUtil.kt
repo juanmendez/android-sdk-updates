@@ -17,7 +17,8 @@ enum class PermissionState {
     INITIAL,
     GRANTED,
     TEMPORARILY_DENIED,
-    PERMANENTLY_DENIED
+    PERMANENTLY_DENIED,
+    ALL_GRANTED,
 }
 
 class PermissionUtil(private val activity: AppCompatActivity, private val permissionType: String) {

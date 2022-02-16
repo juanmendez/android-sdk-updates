@@ -10,7 +10,7 @@ import com.example.sdkUpdates.databinding.ActivityMainBinding
 @SuppressLint("SetTextI18n")
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var permissionUtil: PermissionUtil
+    private lateinit var permissionUtil: MultiPermissionUtil
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,7 +19,10 @@ class MainActivity : AppCompatActivity() {
             setContentView(root)
         }
 
-        permissionUtil = PermissionUtil(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        permissionUtil = MultiPermissionUtil(this, listOf(
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+        ))
     }
 
     override fun onResume() {
@@ -27,29 +30,33 @@ class MainActivity : AppCompatActivity() {
         permissionUtil.refreshUpdate(::updateDisplay)
     }
 
-    private fun updateDisplay(state: PermissionState) {
+    private fun updateDisplay(permission: String, state: PermissionState) {
         when (state) {
             PermissionState.GRANTED -> {
-                binding.activityMainTextview.text = "Granted"
+                binding.activityMainTextview.text = "Granted - $permission"
                 binding.activityMainTextview.setOnClickListener { }
             }
             PermissionState.TEMPORARILY_DENIED -> {
-                binding.activityMainTextview.text = "Temporarily denied"
+                binding.activityMainTextview.text = "Temporarily denied - $permission"
 
                 binding.activityMainTextview.setOnClickListener {
                     permissionUtil.request()
                 }
             }
             PermissionState.PERMANENTLY_DENIED -> {
-                binding.activityMainTextview.text = "Permanently denied"
+                binding.activityMainTextview.text = "Permanently denied - $permission"
                 binding.activityMainTextview.setOnClickListener {
                     permissionUtil.request()
                 }
             }
-            else -> {
-                binding.activityMainTextview.text = "First time"
+            PermissionState.INITIAL -> {
+                binding.activityMainTextview.text = "First time - $permission"
                 binding.activityMainTextview.setOnClickListener { }
                 permissionUtil.request()
+            }
+            else -> {
+                binding.activityMainTextview.text = "All granted - $permission"
+                binding.activityMainTextview.setOnClickListener { }
             }
         }
     }

@@ -1,5 +1,8 @@
 Android SDK Updates
 
-This demo shows how to handle user decisions for a single permission. We require to use `SharedPreferences` to find out when it is not granted the user is landing in the page for the first time if not the user has rejected the permission.
+This demo shows how to handle user decisions for multiple permissions.
+We require to use `SharedPreferences` to find out when each permission is not granted by the user or if he is deciding for the first time.
 
-![single-api-permission](https://user-images.githubusercontent.com/3371622/154158357-5737b5e9-63a0-40e2-ae7c-8a3d20c20cd5.gif)
+This demo shows how to accept them in sequential mode once the user lands in the activity.
+
+![multi-permission](https://user-images.githubusercontent.com/3371622/154317619-bd3114d9-1639-42e9-b0ed-9e26cf951088.gif)
